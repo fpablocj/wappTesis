@@ -1,0 +1,10 @@
+node_modules/
+dist/
+build/
+.vscode/
+.idea/
+.env
+.DS_Store
+package-lock.json
+.wwebjs_cache/
+
