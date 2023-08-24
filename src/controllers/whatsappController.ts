@@ -22,7 +22,7 @@ const getQRCode = (req:any, res:any) => {
         res.send({qr:url});
       }
     } catch (err) {
-      res.status(500).send('Error al generar el código QR');
+      res.status(500).send('Error al generar el código QR.');
     }
   });
 
