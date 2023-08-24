@@ -27,7 +27,20 @@ const getQRCode = (req:any, res:any) => {
   });
 
   client.on('ready', () => {
-    console.log(`Usuario ${sessionId} listo`);
+    const timeoutMilliseconds = 5000; // 5 segundos de timeout
+  let readyHandled = false; // Para evitar ejecución repetida
+
+  const handleReady = () => {
+    if (!readyHandled) {
+      readyHandled = true;
+      console.log(`Usuario ${sessionId} listo`);
+      // Tu código adicional en caso de éxito
+    }
+  };
+
+  setTimeout(() => {
+    handleReady();
+  }, timeoutMilliseconds);
   });
 
   client.on('message', (msg) => {
