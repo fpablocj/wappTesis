@@ -9,6 +9,8 @@ router.get('/qr/:sessionId', getQRCode);
 // Ruta para enviar un mensaje desde una sesión específica
 router.post('/send/:sessionId', json(), sendMessage);
 
+router.get('/consult/:sessionId', viewSession);
+
 // Ruta para desconectar una sesión
 router.get('/disconect/:sessionId', disconnectSession);
 
