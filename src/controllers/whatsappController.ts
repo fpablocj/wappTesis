@@ -63,6 +63,18 @@ const getQRCode = (req:any, res:any) => {
   sessions.set(sessionId, client);
 };
 
+
+const viewSession = (req: any, res: any) => {
+  const sessionId = req.params.sessionId;
+  const client = sessions.get(sessionId);
+
+  if (!client) {
+    return res.send({ msg: 'Sesión no iniciada' });
+  } else {
+    return res.send({ msg: `¡Sesión establecida con el Usuario #${sessionId}!` });
+  }
+};
+
 // Función para enviar un mensaje desde una sesión específica
 const sendMessage = (req:any, res:any) => {
   const sessionId = req.params.sessionId;
@@ -92,6 +104,7 @@ const disconnectSession = (req:any, res:any) => {
 
 export {
   getQRCode,
+  viewSession,
   sendMessage,
   disconnectSession,
 };

@@ -1,5 +1,5 @@
 import { Router, json } from 'express';
-import { getQRCode, sendMessage, disconnectSession } from '../controllers/whatsappController';
+import { getQRCode, sendMessage, disconnectSession, viewSession } from '../controllers/whatsappController';
 
 const router = Router();
 
@@ -8,6 +8,8 @@ router.get('/qr/:sessionId', getQRCode);
 
 // Ruta para enviar un mensaje desde una sesión específica
 router.post('/send/:sessionId', json(), sendMessage);
+
+router.get('/consult/:sessionId', viewSession);
 
 // Ruta para desconectar una sesión
 router.get('/disconect/:sessionId', disconnectSession);
