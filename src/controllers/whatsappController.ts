@@ -68,7 +68,7 @@ const sendMessage = (req:any, res:any) => {
   const sessionId = req.params.sessionId;
   const client = sessions.get(sessionId);
 
-  if (!client) return res.status(404).send({msg:'Sesión no encontrada'});
+  if (!client) return res.send({msg:'Sesión no encontrada'});
 
   const { phone, message } = req.body;
 
@@ -90,8 +90,19 @@ const disconnectSession = (req:any, res:any) => {
   res.send({msg:`Sesión ${sessionId} desconectada y eliminada, no olvide cerrar la sesión en su dispositivo`});
 };
 
+const viewSession = (req: any, res: any) => {
+  const sessionId = req.params.sessionId;
+  const client = sessions.get(sessionId);
+
+  if (!client) {
+    return res.send({ msg: 'Sesión no iniciada' });
+  } else {
+    return res.send({ msg: `¡Sesión establecida con el Usuario #${sessionId}!` });
+  }
+};
 export {
   getQRCode,
+  viewSession,
   sendMessage,
   disconnectSession,
 };
