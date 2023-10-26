@@ -51,22 +51,21 @@ const getQRCode = (req:any, res:any) => {
 };
 
 
-
-
 const viewSession = (req: any, res: any) => {
   const sessionId = req.params.sessionId;
   const client = sessions.get(sessionId);
-  
 
-  if (client) {
-    if(client.pupBrowser._process.connected){
+  if(client){
+    if (client.info) {
       return res.send({ msg: `¡Sesión establecida con el Usuario #${sessionId}!` });
-    }else{
+    } else {
       return res.send({ msg: 'Sesión no iniciada' });
     }
-  } else {
+  }else{
     return res.send({ msg: 'Sesión no iniciada' });
   }
+
+  
 };
 
 // Función para enviar un mensaje desde una sesión específica
@@ -95,7 +94,6 @@ const disconnectSession = (req:any, res:any) => {
 
   res.send({msg:`Sesión ${sessionId} desconectada y eliminada, no olvide cerrar la sesión en su dispositivo`});
 };
-
 export {
   getQRCode,
   viewSession,
