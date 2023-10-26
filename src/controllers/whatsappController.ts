@@ -27,20 +27,7 @@ const getQRCode = (req:any, res:any) => {
   });
 
   client.on('ready', () => {
-    const timeoutMilliseconds = 5000; // 5 segundos de timeout
-  let readyHandled = false; // Para evitar ejecución repetida
-
-  const handleReady = () => {
-    if (!readyHandled) {
-      readyHandled = true;
-      console.log(`Usuario ${sessionId} listo`);
-      // Tu código adicional en caso de éxito
-    }
-  };
-
-  setTimeout(() => {
-    handleReady();
-  }, timeoutMilliseconds);
+    console.log(`Usuario ${sessionId} listo`);
   });
 
   client.on('message', (msg) => {
@@ -51,11 +38,11 @@ const getQRCode = (req:any, res:any) => {
     console.log(`Cliente ${sessionId} desconectado:`, reason);
 
 
-    setTimeout(() => {
       client.destroy();
+      client.pupBrowser.close();
       sessions.delete(sessionId);
       console.log(`Sesión ${sessionId} desconectada y eliminada.`);
-    }, 5000);
+
 
   });
 
@@ -64,14 +51,21 @@ const getQRCode = (req:any, res:any) => {
 };
 
 
+
+
 const viewSession = (req: any, res: any) => {
   const sessionId = req.params.sessionId;
   const client = sessions.get(sessionId);
+  
 
-  if (!client) {
-    return res.send({ msg: 'Sesión no iniciada' });
+  if (client) {
+    if(client.pupBrowser._process.connected){
+      return res.send({ msg: `¡Sesión establecida con el Usuario #${sessionId}!` });
+    }else{
+      return res.send({ msg: 'Sesión no iniciada' });
+    }
   } else {
-    return res.send({ msg: `¡Sesión establecida con el Usuario #${sessionId}!` });
+    return res.send({ msg: 'Sesión no iniciada' });
   }
 };
 
@@ -80,7 +74,7 @@ const sendMessage = (req:any, res:any) => {
   const sessionId = req.params.sessionId;
   const client = sessions.get(sessionId);
 
-  if (!client) return res.status(404).send({msg:'Sesión no encontrada'});
+  if (!client) return res.send({msg:'Sesión no encontrada'});
 
   const { phone, message } = req.body;
 
